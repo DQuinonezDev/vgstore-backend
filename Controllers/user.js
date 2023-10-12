@@ -2,6 +2,30 @@ const { response, request } = require('express');
 const bycrypt = require('bcryptjs');
 const User = require('../Models/User');
 
+const defaultAdmin = async () => {
+    try {
+        let adminUser = new User();
+        adminUser.name = "ADMIN";
+        adminUser.lastname = "ADMIN";
+        adminUser.cellphone = "00000000";
+        adminUser.birthday = "07/12/2004";
+        adminUser.role = "ADMIN_ROLE";
+        adminUser.mail = "admin@gmail.com";
+        adminUser.password = "ADMIN123";
+
+        const userSearch = await User.findOne({ name: adminUser.name });
+        adminUser.password = bycrypt.hashSync(adminUser.password, bycrypt.genSaltSync());
+
+        if (userSearch) return console.log("Admin user is ready!");
+        adminUser.save();
+        if (!adminUser) return console.log("The user is not ready!");
+        return console.log("The admin user is ready!");
+
+    }catch(err){
+        throw new Error(err);
+    }
+}
+
 const getUser = async (req = request, res = response) => {
     const userList = await User.find();
     res.json({
@@ -15,9 +39,10 @@ const getMyUser = (req = request, res = response) => {
 
 const postUser = async (req = request, res = response) => {
     const { name, lastname, cellphone, birthday, mail, password } = req.body;
-    const userDb = new User({ name, lastname, cellphone, birthday, mail, password });
 
-    //Encypt password
+    const userDb = new User({ name, lastname, cellphone, birthday, mail, password, role: "CLIENT_ROLE" });
+
+    //Encrypt password
     const salt = bycrypt.genSaltSync();
     userDb.password = bycrypt.hashSync(password, salt);
 
@@ -67,5 +92,6 @@ module.exports = {
     updateUser,
     updateMyUser,
     deleteUser,
-    deleteMyUser
+    deleteMyUser,
+    defaultAdmin
 }

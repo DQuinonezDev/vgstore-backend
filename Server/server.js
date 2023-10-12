@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConection } = require('../Database/dbconection');
+const { defaultRole } = require('../Controllers/role');
+const { defaultAdmin } = require('../Controllers/user');
 
 
 
@@ -15,7 +17,9 @@ class Server {
 
 
         this.paths = {
-            user: '/api/user'
+            user: '/api/user',
+            auth: '/api/auth',
+            role: '/api/role',
         }
 
         // Middlewares
@@ -28,7 +32,12 @@ class Server {
 
         //Conectar a base de datos
         this.conectDB();
+
+        defaultRole();
+        defaultAdmin();
     }
+
+    
 
     async conectDB() {
         await dbConection();
@@ -51,6 +60,8 @@ class Server {
 //* RUTAS
     routes() {
         this.app.use(this.paths.user, require('../Routes/user'));
+        this.app.use(this.paths.auth, require('../Routes/auth'));
+        this.app.use(this.paths.role, require('../Routes/role'));
     }
 
     listen() {

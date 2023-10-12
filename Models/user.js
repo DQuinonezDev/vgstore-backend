@@ -16,13 +16,15 @@ const UserSchema = Schema({
         type: Date,
         required: true,
     },
+    role:{
+        type: String
+    },
     mail: {
         type: String,
         required: true,
     },
     password:{
         type: String,
-        required: true,
     },
 })
 
