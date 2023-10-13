@@ -1,5 +1,4 @@
 const { response, request } = require('express');
-const bycrypt = require('bcryptjs');
 const Role = require('../Models/role');
 
 const defaultRole = async () => {

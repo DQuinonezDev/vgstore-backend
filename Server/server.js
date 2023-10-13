@@ -20,6 +20,12 @@ class Server {
             user: '/api/user',
             auth: '/api/auth',
             role: '/api/role',
+            category: '/api/category',
+            categoryType: '/api/category-type',
+            product: '/api/product',
+            cart: '/api/cart',
+            invoice: '/api/invoice',
+            search: '/api/search',
         }
 
         // Middlewares
@@ -62,6 +68,12 @@ class Server {
         this.app.use(this.paths.user, require('../Routes/user'));
         this.app.use(this.paths.auth, require('../Routes/auth'));
         this.app.use(this.paths.role, require('../Routes/role'));
+        this.app.use(this.paths.category, require('../Routes/category'));
+        this.app.use(this.paths.categoryType, require('../Routes/category-type'));
+        this.app.use(this.paths.product, require('../Routes/product'));
+        this.app.use(this.paths.cart, require('../Routes/buycart'));
+        this.app.use(this.paths.invoice, require('../Routes/invoice'));
+        this.app.use(this.paths.search, require('../Routes/search'));
     }
 
     listen() {

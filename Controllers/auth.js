@@ -23,12 +23,13 @@ const login = async (req = request, res = response) => {
             });
         }
         //Generate JWT
-        const token = await generateJWT( user.id );
+        const token = await generateJWT( user.id, user.role );
 
         res.json({
             msg: 'Login PATH',
             mail, password,
-            token
+            token,
+            role: user.role
         })
 
     } catch (error) {
