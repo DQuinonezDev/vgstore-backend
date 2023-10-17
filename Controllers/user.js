@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const bycrypt = require('bcryptjs');
 const User = require('../Models/User');
+const { default: GoogleLogin } = require('react-google-login');
 
 const defaultAdmin = async () => {
     try {
@@ -86,6 +87,9 @@ const deleteMyUser = (req = request, res = response) => {
 
 }
 
+
+
+
 module.exports = {
     getUser,
     postUser,
@@ -93,5 +97,5 @@ module.exports = {
     updateMyUser,
     deleteUser,
     deleteMyUser,
-    defaultAdmin
+    defaultAdmin,
 }

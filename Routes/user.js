@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { postUser, getUser, deleteUser, updateUser } = require("../Controllers/user");
+const { postUser, getUser, deleteUser, updateUser, googleLogin } = require("../Controllers/user");
 const { check } = require("express-validator");
 const { mailExists } = require("../Helpers/db-validator");
 const { validateFields } = require("../Middlewares/validate-fields");
@@ -28,5 +28,6 @@ router.put('/update/:id',[
 ], updateUser);
 
 router.delete('/delete/:id', deleteUser);
+
 
 module.exports = router;
