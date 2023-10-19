@@ -27,6 +27,11 @@ const InvoiceSchema = Schema({
         type: Date,
         default: Date.now,
     },
+    shippingAddress: {
+        type: Schema.Types.ObjectId,
+        ref: 'Addres',
+        required: true,
+    },
 });
 
 module.exports = model('Invoice', InvoiceSchema);

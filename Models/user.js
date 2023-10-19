@@ -22,6 +22,10 @@ const UserSchema = Schema({
     password:{
         type: String,
     },
+    shippingAddress: {
+        type: Schema.Types.ObjectId,
+        ref: 'Addres',
+    },
 })
 
 module.exports = model('User', UserSchema);

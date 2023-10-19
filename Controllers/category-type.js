@@ -23,7 +23,7 @@ const updateCategoryType = async (req = request, res = response) => {
     const { id } = req.params;
     const { name, ...body } = req.body;
 
-    const updtCategory = await CategoryType.findByIdAndUpdate(id, { name, ...body}, { new: true });
+    const updtCategory = await CategoryType.findByIdAndUpdate(id, { name, ...body }, { new: true });
 
     res.status(200).json({
         updtCategory

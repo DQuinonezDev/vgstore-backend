@@ -11,7 +11,7 @@ router.get('/show', [
     validateJWT,
     haveRole('ADMIN_ROLE'),
     validateFields,
-] ,getCategoryType);
+], getCategoryType);
 
 router.post('/add', [
     validateJWT,
@@ -19,7 +19,7 @@ router.post('/add', [
     check('name', 'Name obligatory').not().isEmpty(),
     check('category', 'Category obligatory').not().isEmpty(),
     validateFields,
-] ,postCategoryType);
+], postCategoryType);
 
 router.put('/update/:id', [
     validateJWT,
@@ -27,12 +27,12 @@ router.put('/update/:id', [
     check('name', 'Name obligatory').not().isEmpty(),
     check('category', 'Category obligatory').not().isEmpty(),
     validateFields,
-] ,updateCategoryType);
+], updateCategoryType);
 
 router.delete('/delete/:id', [
     validateJWT,
     haveRole('ADMIN_ROLE'),
     validateFields,
-] ,deleteCategoryType);
+], deleteCategoryType);
 
 module.exports = router;

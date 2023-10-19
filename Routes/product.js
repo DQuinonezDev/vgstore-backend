@@ -3,15 +3,15 @@ const { check } = require('express-validator');
 const { validateFields } = require('../Middlewares/validate-fields');
 const { validateJWT } = require('../Middlewares/validate-jwt');
 const { haveRole } = require('../Middlewares/validate-role');
-const { getProduct, postProduct, updateProduct, deleteProduct } = require('../Controllers/product');
+const { getProduct, postProduct, updateProduct, deleteProduct, getProductById } = require('../Controllers/product');
 
 const router = Router();
 
 router.get('/show', [
-    validateJWT,
-    haveRole('ADMIN_ROLE'),
-    validateFields,
 ], getProduct);
+
+router.get('/show/:id', [
+], getProductById);
 
 router.post('/add', [
     validateJWT,

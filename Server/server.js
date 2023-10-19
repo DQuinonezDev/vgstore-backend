@@ -26,6 +26,7 @@ class Server {
             cart: '/api/cart',
             invoice: '/api/invoice',
             search: '/api/search',
+            address: '/api/address',
         }
 
         // Middlewares
@@ -74,6 +75,7 @@ class Server {
         this.app.use(this.paths.cart, require('../Routes/buycart'));
         this.app.use(this.paths.invoice, require('../Routes/invoice'));
         this.app.use(this.paths.search, require('../Routes/search'));
+        this.app.use(this.paths.address, require('../Routes/address'));
     }
 
     listen() {

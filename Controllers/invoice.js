@@ -1,4 +1,5 @@
 const Invoice = require('../Models/Invoice');
+const User = require('../Models/User');
 const Cart = require('../Models/buycart');
 
 const getUserInvoices = async (req, res) => {
@@ -13,7 +14,10 @@ const getUserInvoices = async (req, res) => {
 const getLastInvoice = async (req, res) => {
     try {
         const userId = req.user.id;
-        const invoices = await Invoice.find({ user: userId }).sort({ createdAt: -1 });
+        const invoices = await Invoice.find({ user: userId }).sort({ createdAt: -1 })
+            .populate('products.product', 'name price ')
+            .populate('user', 'name lastname mail phone')
+            .populate('shippingAddress');
 
         if (invoices.length === 0) {
             return res.status(404).json({ message: 'User Has not Invoices' });
@@ -38,6 +42,11 @@ const getAllInvoices = async (req, res) => {
 const postInvoice = async (req, res) => {
     try {
         const userId = req.user.id; 
+        const user = await User.findById(userId).populate('shippingAddress');
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
         const cart = await Cart.findOne({ user: userId }).populate('products.product');
         if (!cart) {
             return res.status(404).json({ message: 'Carrito no encontrado' });
@@ -47,6 +56,7 @@ const postInvoice = async (req, res) => {
             user: userId,
             products: cart.products,
             total: cart.total,
+            shippingAddress: user.shippingAddress, 
         });
 
         await invoice.save();

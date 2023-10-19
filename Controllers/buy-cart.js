@@ -6,7 +6,7 @@ const Cart = require('../Models/buycart');
 const getCart = async (req = request, res = response) => {
     const userId = req.user.id;
     try {
-        const cart = await Cart.findOne({ user: userId }).populate('products.product' , 'name price');
+        const cart = await Cart.findOne({ user: userId }).populate('products.product' , 'name price img');
         if (!cart) {
             return res.status(404).json({ message: 'Cart no exists' });
         }

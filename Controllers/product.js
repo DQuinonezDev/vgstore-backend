@@ -8,6 +8,15 @@ const getProduct = async (req = request, res = response) => {
     });
 }
 
+const getProductById = async (req = request, res = response) => {
+    const { id } = req.params;
+    const query = { _id: id };
+    const productList = await Product.findOne(query).populate('category', 'name');
+    res.json({
+        productList
+    });
+}
+
 const postProduct = async (req = request, res = response) => {
     const { ...body } = req.body;
     const productDB = new Product({ ...body });
@@ -42,5 +51,6 @@ module.exports = {
     getProduct,
     postProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductById
 }
