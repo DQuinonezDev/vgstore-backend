@@ -7,7 +7,6 @@ const postAdress = async (req, res) => {
         const userId = req.user.id;
         const { street, reference, municipality, country, additionalInfo, phone } = req.body;
 
-        // Crea una instancia de Address
         const newAddress = new Address({
             user: userId,
             street,
@@ -18,20 +17,15 @@ const postAdress = async (req, res) => {
             phone,
         });
 
-        // Guarda la dirección en la base de datos
         await newAddress.save();
 
-        // Carga el usuario desde la base de datos
         const user = await User.findById(userId);
 
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Asocia la dirección con el usuario
         user.shippingAddress = newAddress._id;
-
-        // Guarda los cambios en el usuario
         await user.save();
 
         res.status(201).json(newAddress);
@@ -43,12 +37,18 @@ const postAdress = async (req, res) => {
 
 const getAddressByUser = async (req, res) => {
     try {
-        const userId = req.user.id; // Puedes obtener el ID del usuario desde el token o la sesión
-        const addresses = await Address.find({ user: userId });
+        const userId = req.user.id;
+        const user = await User.findById(userId).populate('shippingAddress');
 
-        res.json({ addresses });
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        const userAddress = user.shippingAddress;
+
+        res.json({ address: userAddress });
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener las direcciones del usuario', error });
+        res.status(500).json({ message: 'Error al obtener la dirección del usuario', error });
     }
 };
 
@@ -67,6 +67,7 @@ const getAddressById = async (req, res) => {
 };
 
 const updateAddress = async (req, res) => {
+    const userId = req.user.id;
     const { id } = req.params;
     try {
         const updatedAddress = await Address.findByIdAndUpdate(id, req.body, { new: true });
@@ -75,6 +76,15 @@ const updateAddress = async (req, res) => {
         }
 
         res.json(updatedAddress);
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        user.shippingAddress = updatedAddress._id;
+        await user.save();
     } catch (error) {
         res.status(500).json({ message: 'Error al actualizar la dirección', error });
     }

@@ -16,7 +16,7 @@ router.post('/add', [
     validateFields,
 ], postAdress);
 
-router.get('/show', [validateJWT], getAddressByUser);
+router.get('/show', [validateJWT, validateFields], getAddressByUser);
 
 router.get('/show/:id', [validateJWT], getAddressById);
 

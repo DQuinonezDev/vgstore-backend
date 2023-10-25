@@ -1,7 +1,6 @@
 const { response, request } = require('express');
 const bycrypt = require('bcryptjs');
 const User = require('../Models/User');
-const { default: GoogleLogin } = require('react-google-login');
 
 const defaultAdmin = async () => {
     try {
