@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const bycrypt = require('bcryptjs');
 const User = require('../Models/User');
+const buycart = require('../Models/buycart');
 
 const defaultAdmin = async () => {
     try {
@@ -48,6 +49,9 @@ const postUser = async (req = request, res = response) => {
 
     //Save the user to DB
     await userDb.save();
+
+    const cart = new buycart({ user: userDb._id }); 
+    await cart.save();
 
     res.status(201).json({
         msg: 'Post User Success',
