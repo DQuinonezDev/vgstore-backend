@@ -16,6 +16,7 @@ const getCart = async (req = request, res = response) => {
     }
 };
 
+//Add products to the car
 const postCart = async (req, res) => {
     const userId = req.user.id; 
 
